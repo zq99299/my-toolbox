@@ -1,4 +1,4 @@
-package cn.mrcode.tool.box.thread;
+package cn.mrcode.tool.mytoolbox.thread;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.StrUtil;

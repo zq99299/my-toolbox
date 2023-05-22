@@ -1,4 +1,4 @@
-package cn.mrcode.tool.box.thread;
+package cn.mrcode.tool.mytoolbox.thread;
 
 import lombok.Data;
 import lombok.ToString;
