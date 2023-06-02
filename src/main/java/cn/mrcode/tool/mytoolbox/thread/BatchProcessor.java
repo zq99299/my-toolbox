@@ -43,7 +43,7 @@ import java.util.stream.IntStream;
  *
  * @author mrcode
  * @date 2021/6/2 17:52
- * @since 0.1
+ * @since 0.1.0
  */
 @Slf4j
 public class BatchProcessor<T> {
