@@ -10,7 +10,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author zhuqiang
+ * @author mrcode
  * @date 2023/6/2 13:44
  */
 class KeyedLockTest {

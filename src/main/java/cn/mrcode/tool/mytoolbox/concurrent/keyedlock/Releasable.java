@@ -1,7 +1,7 @@
 package cn.mrcode.tool.mytoolbox.concurrent.keyedlock;
 
 /**
- * @author zhuqiang
+ * @author mrcode
  * @date 2023/6/2 13:30
  */
 public interface Releasable {
