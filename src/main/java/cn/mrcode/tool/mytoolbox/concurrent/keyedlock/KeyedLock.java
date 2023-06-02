@@ -24,6 +24,18 @@ import java.util.concurrent.locks.ReentrantLock;
  *         // 释放锁，如果没有并发，那么这一步就会移除内部生产的锁
  *         lock.close();
  *     }
+ *
+ *     为什么不使用 synchronized ？
+ *     public void demo(String key) {
+ *         key.intern(); // 保证使用的是同一个 String 对象，否则加锁不能保证串行效果
+ *         synchronized (key) {
+ *             ...
+ *         }
+ *     }
+ *     1. 你需要保证传入的 key 是同一个对象，或者自己再包装维护
+ *     2. 如果用上述 key.intern() 来保证返回常量池的同一个对象，也会发生问题：
+ *        常量池是有大小的，当装不下的时候（或者其他时候），可能会被驱逐
+ *        驱逐之后，再进入常量池，就已经不是同一个对象了
  * </pre>
  *
  * @author mrcode
