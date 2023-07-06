@@ -5,6 +5,55 @@ import lombok.ToString;
 import org.junit.jupiter.api.Test;
 
 class BatchProcessorTest {
+
+    /**
+     * 批量插入测试，新入口 API 更清晰
+     */
+    @Test
+    public void batchInsertNew() {
+        final BatchProcessor<DemoEntity> work = new BatchProcessor<>();
+        work.startListen(entities -> {
+                    System.out.println("插入数据库条数：" + entities.size());
+                },
+                4, 4);
+        // 模拟生产数据
+        try {
+            for (int i = 0; i < 21; i++) {
+                work.put(new DemoEntity(i, i + " name"));
+            }
+            // 等待入库完成
+            work.await();
+        } catch (Exception e) {
+            // 如果生产过程中有异常,立即停止掉处理器，不再入库
+            work.stop();
+        }
+    }
+    /**
+     * 单条插入测试,新入口 API 更清晰
+     */
+    @Test
+    public void insertNew() {
+        final BatchProcessor<DemoEntity> work = new BatchProcessor<>();
+        work.start((entity, entities) -> {
+                    System.out.println("插入数据库：" + entity);
+                },
+                4, 0);
+
+        // 模拟生产数据
+        try {
+            for (int i = 0; i < 5; i++) {
+                work.put(new DemoEntity(i, i + " name"));
+            }
+            // 等待入库完成
+            work.await();
+        } catch (Exception e) {
+            // 如果生产过程中有异常,立即停止掉处理器，不再入库
+            work.stop();
+        }
+    }
+
+
+    /* =========      后面的 start 入口 API 不建议使用，API 回调定义不是很清晰  =========== */
     /**
      * 批量插入测试
      */

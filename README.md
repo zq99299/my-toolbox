@@ -26,3 +26,7 @@ implementation 'cn.mrcode.tool:my-toolbox:0.1.1'
 - KeyedLock：多 key 锁工具
 
 具体使用方式可以查看 [在线文档](https://www.yuque.com/mrcode.cn/note-combat/ypxy8nhgzclg2psk) 或者查看 [测试用例](https://github.com/zq99299/my-toolbox/tree/main/src/test/java/cn/mrcode/tool/mytoolbox)
+
+## 简要更新日志
+### v0.1.2
+- [BatchProcessor.java](src%2Fmain%2Fjava%2Fcn%2Fmrcode%2Ftool%2Fmytoolbox%2Fthread%2FBatchProcessor.java) 工具类增加 startListen 方法，该方法替代 start 方法作为主要入口方法，会更清晰知道自己要的是单条消费数据还是批量消费数据
