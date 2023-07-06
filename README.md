@@ -11,12 +11,12 @@
 <dependency>
     <groupId>cn.mrcode.tool</groupId>
     <artifactId>my-toolbox</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
 </dependency>
 ```
 ```groovy
 // gradle 使用
-implementation 'cn.mrcode.tool:my-toolbox:0.1.1'
+implementation 'cn.mrcode.tool:my-toolbox:0.1.2'
 ```
 可以通过 [Maven 中央仓库](https://central.sonatype.com/artifact/cn.mrcode.tool/my-toolbox) 获取最新版本
 
