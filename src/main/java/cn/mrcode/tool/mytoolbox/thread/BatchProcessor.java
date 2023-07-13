@@ -128,6 +128,7 @@ public class BatchProcessor<T> {
 
     /**
      * 默认 4 个线程，每个线程每次处理一条数据； 建议使用  startListen 方法
+     *
      * @param consumer 每次达到消费条数时，消费方的消费回调逻辑
      */
     public void start(StorageConsumer<T> consumer) {
@@ -146,6 +147,7 @@ public class BatchProcessor<T> {
 
     /**
      * 建议使用  startListen 方法
+     *
      * @param consumer        每次达到消费条数时，消费方的消费回调逻辑
      * @param workThreadCount 需要并行处理的线程数量，必须大于 0
      * @param maxItemCount    每次每个线程希望的消费数据条数， 0：每个线程每次消费 1 条数据，大于 0 则按照期望的条数进行消费
@@ -157,7 +159,6 @@ public class BatchProcessor<T> {
     }
 
     /**
-     *
      * @param consumer                 每次达到消费条数时，消费方的消费回调逻辑
      *                                 由于是线程处理，所有在消费逻辑处理的时候，建议消费方一定要将逻辑都 try 一下，否则就会进入 uncaughtExceptionHandler 处理异常，并且该工作线程退出工作
      * @param workThreadCount          需要并行处理的线程数量，必须大于 0
@@ -241,8 +242,25 @@ public class BatchProcessor<T> {
         if (!started) {
             throw new RuntimeException("还未运行");
         }
+        this.stopQuietly();
+    }
+
+    /**
+     * 立即停止，只适合在生产方不生产数据时，调用
+     * 该方法可以多次调用，不会产生异常
+     */
+    public void stopQuietly() {
         isProduceData = false;
         queue.clear();
+    }
+
+    /**
+     * 是否已经开始
+     *
+     * @return
+     */
+    public boolean isStarted() {
+        return this.started;
     }
 
     private class WorkThread extends Thread {
