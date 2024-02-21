@@ -1,0 +1,139 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'  // maven 发布插件
+    id 'signing'  // 签名插件
+}
+
+group = 'cn.mrcode.tool'
+// 发布到 snapshots 快照仓库，必须携带 -SNAPSHOT 后缀
+// 正式版发布到，不能携带 -SNAPSHOT 后缀，否则会报错 400 状态码
+//version = '0.1.0-SNAPSHOT'
+version = '0.1.3'
+
+ext {
+    // 从环境变量中获取属性，如果本地要使用 gradle.properties 方式定义，就手动注释掉这个变量声明
+    NEXUS_USERNAME = System.getenv("NEXUS_USERNAME") ?: '-'
+    NEXUS_PASSWORD = System.getenv("NEXUS_PASSWORD") ?: '-'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.30'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    implementation 'org.slf4j:slf4j-api:2.0.7'
+
+    implementation 'cn.hutool:hutool-all:5.8.25'
+    implementation 'com.alibaba:fastjson:2.0.31'
+}
+
+test {
+    useJUnitPlatform()
+    enabled = false
+}
+
+// 后面的都是打包的配置
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = "sources"
+}
+
+// 生成 javadoc jar
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier.set('javadoc')
+    from javadoc.destinationDir
+}
+
+// javadoc 配置，这里是自定义了 java doc 的一些配置
+javadoc {
+    description = "Generates project-level javadoc for use in -javadoc jar"
+
+    options.memberLevel = JavadocMemberLevel.PROTECTED
+    options.author = true
+    options.version = true
+    options.header = project.name
+    options.addStringOption('Xdoclint:none', '-quiet')
+
+    // suppress warnings due to cross-module @see and @link references;
+    // note that global 'api' task does display all warnings.
+    logging.captureStandardError LogLevel.INFO
+    logging.captureStandardOutput LogLevel.INFO // suppress "## warnings" message
+    options.encoding = "UTF-8"  //编码一定要配置否则直接出错
+    options.charSet = 'UTF-8'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourceJar
+            artifact javadocJar
+
+            // https://docs.gradle.org/current/dsl/org.gradle.api.publish.maven.MavenPublication.html
+            pom {
+                name = "my-toolbox"
+                description = "When the third-party tools in normal development are not enough, write it yourself, or some tools packaged on the basis"
+                url = "https://github.com/zq99299/my-toolbox"
+                licenses {
+                    license {
+                        name = "MIT License"
+                        url = "https://github.com/zq99299/my-toolbox/blob/main/LICENSE"
+                    }
+                }
+                // 定义开发者信息
+                developers {
+                    developer {
+                        id = "zq99299"
+                        name = "mrcode"
+                        email = "99299684@qq.com"
+                    }
+                }
+                // 定义仓库信息
+                scm {
+                    connection = "scm:git:https://github.com/zq99299/my-toolbox.git"
+                    developerConnection = "scm:git:https://github.com/zq99299/my-toolbox.git"
+                    url = "https://github.com/zq99299/my-toolbox"
+                }
+            }
+        }
+    }
+    // 定义中央仓库信息
+    repositories {
+        // 正式版发布
+        maven {
+            name 'release'
+            url 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+            credentials {
+                username = "${NEXUS_USERNAME}"
+                password = "${NEXUS_PASSWORD}"
+            }
+        }
+        // 快照版发布，必须携带 -SNAPSHOT 后缀
+        maven {
+            name = 'napshot'
+            url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+            credentials {
+                username = "${NEXUS_USERNAME}"
+                password = "${NEXUS_PASSWORD}"
+            }
+        }
+    }
+}
+
+// 签名配置，注意这里的顺序，今天第一次知道 gradle 中的 task 等配置也是有顺序的
+// 必须在 publishing 配置之后
+// https://docs.gradle.org/current/userguide/signing_plugin.html#header
+signing {
+    // 签名属性在本地可以提供 gradle.properties 方式
+    // 在其他环境下也可以在命令行中传入，例如 ./gradlew publish -Psigning.keyId=...
+    sign publishing.publications.mavenJava
+}
