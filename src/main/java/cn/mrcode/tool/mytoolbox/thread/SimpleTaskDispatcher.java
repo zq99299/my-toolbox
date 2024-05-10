@@ -40,7 +40,7 @@ public class SimpleTaskDispatcher<I> {
     /**
      * 用于 worker 线程消费
      */
-    private ArrayBlockingQueue<I> taskQueue = null;
+    private final ArrayBlockingQueue<I> taskQueue;
     /**
      * 标记所有 worker 是否应该停止运行
      */
