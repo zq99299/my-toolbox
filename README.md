@@ -33,6 +33,9 @@ implementation 'cn.mrcode.tool:my-toolbox:0.1.4'
 具体使用方式可以查看 [在线文档](https://www.yuque.com/mrcode.cn/note-combat/ypxy8nhgzclg2psk) 或者查看 [测试用例](https://github.com/zq99299/my-toolbox/tree/main/src/test/java/cn/mrcode/tool/mytoolbox)
 
 ## 简要更新日志
+### v0.1.5
+- 简单任务分发器 增加 containsTask 方法
+
 ### v0.1.4
 - [SimpleTaskDispatcher](src%2Fmain%2Fjava%2Fcn%2Fmrcode%2Ftool%2Fmytoolbox%2Fthread%2FSimpleTaskDispatcher.java) 增加简单任务分发器
 

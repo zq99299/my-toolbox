@@ -122,6 +122,18 @@ public class SimpleTaskDispatcher<I> {
     }
 
     /**
+     * 任务是否已经排队或处理中
+     * <pre>
+     * 一般使用场景是: 要判断任务不在使用中，才更新数据库，然后再添加到队列中，当然这不是原子操作，并发高会出现更新和添加队列 出现问题
+     *</pre>
+     * @param id
+     * @return
+     */
+    public boolean containsTask(I id) {
+        return tasks.contains(id);
+    }
+
+    /**
      * 标记所有 worker 线程停止处理任务
      * <pre>
      *  建议可以监听 spring 的 ContextClosedEvent 事件，如下所示
