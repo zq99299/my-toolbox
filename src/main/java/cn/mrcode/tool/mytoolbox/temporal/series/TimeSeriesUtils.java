@@ -1,4 +1,4 @@
-package cn.mrcode.tool.mytoolbox.timeseries;
+package cn.mrcode.tool.mytoolbox.temporal.series;
 
 import java.util.List;
 import java.util.Map;
@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 
 /**
  * 时间序列处理工具
+ * @author mrcode
+ * @时间 2025/03/04
+ * @since 0.1.6
  */
 public class TimeSeriesUtils {
     /**
