@@ -1,4 +1,4 @@
-package cn.mrcode.tool.mytoolbox.timeseries;
+package cn.mrcode.tool.mytoolbox.temporal.series;
 
 import com.alibaba.fastjson2.JSONObject;
 import lombok.Builder;
@@ -10,8 +10,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * 时间序列工具测试

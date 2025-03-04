@@ -17,13 +17,13 @@
 <dependency>
     <groupId>cn.mrcode.tool</groupId>
     <artifactId>my-toolbox</artifactId>
-    <version>0.1.6</version>
+    <version>0.1.7</version>
 </dependency>
 ```
 
 ```groovy
 // gradle 使用
-implementation 'cn.mrcode.tool:my-toolbox:0.1.5'
+implementation 'cn.mrcode.tool:my-toolbox:0.1.7'
 ```
 
 可以通过 [Maven 中央仓库](https://central.sonatype.com/artifact/cn.mrcode.tool/my-toolbox) 获取最新版本
@@ -41,9 +41,12 @@ implementation 'cn.mrcode.tool:my-toolbox:0.1.5'
 
 ## 简要更新日志
 
+### v0.1.7
+重构 TimeSeriesUtils 所属包名
+
 ### v0.1.6
 
-- 增加时间序列处理工具类 [TimeSeriesUtils.java](src/main/java/cn/mrcode/tool/mytoolbox/timeseries/TimeSeriesUtils.java)，
+- 增加时间序列处理工具类 [TimeSeriesUtils.java](src/main/java/cn/mrcode/tool/mytoolbox/temporal/series/TimeSeriesUtils.java)，
 新增一个工具方法：填充缺失时间点数据 功能
 
 ### v0.1.5

@@ -1,4 +1,4 @@
-package cn.mrcode.tool.mytoolbox.timeseries;
+package cn.mrcode.tool.mytoolbox.temporal.series;
 
 import java.util.List;
 import java.util.Map;
